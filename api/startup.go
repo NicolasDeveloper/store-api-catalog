@@ -42,6 +42,9 @@ func (s *startup) registerRoutes() {
 	subrouter := s.router.PathPrefix("/catalog-api/v1/").Subrouter()
 
 	subrouter.HandleFunc("/products", controllers.CreateProduct).Methods(http.MethodPost)
+	subrouter.HandleFunc("/products", controllers.UpdateProduct).Methods(http.MethodPut)
+	subrouter.HandleFunc("/products/active", controllers.ActiveProduct).Methods(http.MethodPut)
+	subrouter.HandleFunc("/products/inactive", controllers.InactiveProduct).Methods(http.MethodPut)
 
 	http.Handle("/", s.router)
 }

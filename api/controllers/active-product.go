@@ -7,21 +7,19 @@ import (
 	"github.com/golobby/container"
 )
 
-//CreateProduct create product
-func CreateProduct(w http.ResponseWriter, r *http.Request) {
-	request := domain.CreateProductRequest{}
+//ActiveProduct create product
+func ActiveProduct(w http.ResponseWriter, r *http.Request) {
+	request := domain.UpdateProductRequest{}
 	GetContent(&request, r)
-
-	product, err := domain.NewProduct(
-		request.Name,
-		request.Price,
-		request.Description,
-	)
 
 	var repository domain.ProductRepository
 	container.Make(&repository)
 
-	err = repository.Save(product)
+	product, err := repository.GetByID(request.ID)
+
+	product.Enable()
+
+	err = repository.Update(product)
 
 	if err != nil {
 		HandleError(err, w)
