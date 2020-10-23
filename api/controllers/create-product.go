@@ -14,7 +14,6 @@ func CreateProduct(w http.ResponseWriter, r *http.Request) {
 
 	product, err := domain.NewProduct(
 		request.Name,
-		request.Price,
 		request.Description,
 	)
 

@@ -2,8 +2,7 @@ package domain
 
 //ProductResponse product view model
 type ProductResponse struct {
-	ID          string  `json:"id"`
-	Name        string  `json:"name"`
-	Price       float64 `json:"price"`
-	Description string  `json:"description"`
+	ID          string `json:"id"`
+	Name        string `json:"name"`
+	Description string `json:"description"`
 }

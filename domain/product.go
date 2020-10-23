@@ -31,7 +31,7 @@ func NewProduct(
 		Active:      true,
 		UpdateAt:    time.Now(),
 		CreateAt:    time.Now(),
-		Skus:        make([]Sku, 1),
+		Skus:        []Sku{},
 	}, nil
 }
 

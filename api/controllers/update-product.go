@@ -17,7 +17,7 @@ func UpdateProduct(w http.ResponseWriter, r *http.Request) {
 
 	product, err := repository.GetByID(request.ID)
 
-	product.Update(request.Name, request.Price, request.Description)
+	product.Update(request.Name, request.Description)
 
 	err = repository.Update(product)
 
