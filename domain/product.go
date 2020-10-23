@@ -10,8 +10,8 @@ import (
 type Product struct {
 	ID          string    `bson:"_id" json:"id"`
 	Name        string    `bson:"name" json:"name"`
-	Price       float64   `bson:"price" json:"price"`
 	Description string    `bson:"description" json:"description"`
+	Skus        []Sku     `bson:"skus" json:"skus"`
 	Active      bool      `bson:"active" json:"active"`
 	CreateAt    time.Time `bson:"create_at" json:"create_at"`
 	UpdateAt    time.Time `bson:"update_at" json:"update_at"`
@@ -20,7 +20,6 @@ type Product struct {
 //NewProduct constructor
 func NewProduct(
 	name string,
-	price float64,
 	descripion string,
 ) (Product, error) {
 	newguid := guid.New()
@@ -28,18 +27,17 @@ func NewProduct(
 	return Product{
 		ID:          newguid.String(),
 		Name:        name,
-		Price:       price,
 		Description: descripion,
 		Active:      true,
 		UpdateAt:    time.Now(),
 		CreateAt:    time.Now(),
+		Skus:        make([]Sku, 1),
 	}, nil
 }
 
 //Update update product
-func (p *Product) Update(name string, price float64, description string) {
+func (p *Product) Update(name string, description string) {
 	p.Name = name
-	p.Price = price
 	p.Description = description
 	p.UpdateAt = time.Now()
 }
@@ -53,5 +51,11 @@ func (p *Product) Disable() {
 //Enable active product to not be used
 func (p *Product) Enable() {
 	p.Active = true
+	p.UpdateAt = time.Now()
+}
+
+//AddSku add product variation
+func (p *Product) AddSku(sku Sku) {
+	p.Skus = append(p.Skus, sku)
 	p.UpdateAt = time.Now()
 }

@@ -41,6 +41,7 @@ func (s *startup) registerRoutes() {
 	s.router = mux.NewRouter()
 	subrouter := s.router.PathPrefix("/catalog-api/v1/").Subrouter()
 
+	subrouter.HandleFunc("/health-check", controllers.HealthCheck).Methods(http.MethodPost)
 	subrouter.HandleFunc("/products", controllers.CreateProduct).Methods(http.MethodPost)
 	subrouter.HandleFunc("/products", controllers.UpdateProduct).Methods(http.MethodPut)
 	subrouter.HandleFunc("/products/active", controllers.ActiveProduct).Methods(http.MethodPut)

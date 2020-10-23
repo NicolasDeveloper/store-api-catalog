@@ -10,7 +10,10 @@
             "request": "launch",
             "mode": "auto",
             "program": "${fileDirname}",
-            "env": {},
+            "env": {
+                "MONGO_DB": "mongodb://nicolas:NI684250102@ds042128.mlab.com:42128/7180?retryWrites=false",
+                "PORT": ":3001"
+            },
             "args": []
         }
     ]
