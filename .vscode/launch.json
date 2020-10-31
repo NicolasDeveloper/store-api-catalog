@@ -11,8 +11,9 @@
             "mode": "auto",
             "program": "${fileDirname}",
             "env": {
-                "MONGO_DB": "mongodb://nicolas:NI684250102@ds042128.mlab.com:42128/7180?retryWrites=false",
-                "PORT": ":3001"
+                "MONGO_DB": "mongodb://apicatalog:api123@ds057944.mlab.com:57944/catalog?retryWrites=false",
+                "PORT": "8080",
+                "DATABASE": "catalog",
             },
             "args": []
         }

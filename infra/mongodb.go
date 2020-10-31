@@ -62,7 +62,8 @@ func getCollectionName(myvar interface{}) string {
 
 //GetCollection get collection
 func (c *DbContext) GetCollection(structInstance interface{}) (*mongo.Collection, error) {
-	collection := c.client.Database("7180").Collection(getCollectionName(structInstance))
+	database := os.Getenv("DATABASE")
+	collection := c.client.Database(database).Collection(getCollectionName(structInstance))
 
 	return collection, nil
 }

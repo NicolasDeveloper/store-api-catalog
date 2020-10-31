@@ -15,5 +15,5 @@ func HealthCheck(w http.ResponseWriter, r *http.Request) {
 		},
 	}
 
-	SendJSON(w, resp, http.StatusNoContent)
+	SendJSON(w, resp, http.StatusOK)
 }

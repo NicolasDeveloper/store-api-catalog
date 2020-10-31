@@ -41,7 +41,7 @@ func (s *startup) registerRoutes() {
 	s.router = mux.NewRouter()
 	subrouter := s.router.PathPrefix("/catalog-api/v1/").Subrouter()
 
-	subrouter.HandleFunc("/health-check", controllers.HealthCheck).Methods(http.MethodPost)
+	subrouter.HandleFunc("/health-check", controllers.HealthCheck).Methods(http.MethodGet)
 	subrouter.HandleFunc("/products", controllers.CreateProduct).Methods(http.MethodPost)
 	subrouter.HandleFunc("/products", controllers.UpdateProduct).Methods(http.MethodPut)
 	subrouter.HandleFunc("/products/active", controllers.ActiveProduct).Methods(http.MethodPut)
@@ -58,5 +58,5 @@ func (s *startup) registerDb() {
 
 func (s *startup) run() {
 	fmt.Printf("API Catalog Running on %v", s.config.port)
-	log.Fatal(http.ListenAndServe(s.config.port, s.router))
+	log.Fatal(http.ListenAndServe(":"+s.config.port, s.router))
 }

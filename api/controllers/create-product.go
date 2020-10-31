@@ -24,6 +24,7 @@ func CreateProduct(w http.ResponseWriter, r *http.Request) {
 
 	if err != nil {
 		HandleError(err, w)
+		return
 	}
 
 	resp := ResponseData{
