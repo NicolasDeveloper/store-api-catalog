@@ -11,11 +11,10 @@ import (
 func TestProduct(t *testing.T) {
 	category := []Category{
 		Category{
-			Entity: Entity{
+			AggreateRoot: AggreateRoot{
 				ID: guid.NewString(),
 			},
-			Name:             "Teste",
-			ParentCategoryID: "",
+			Name: "Teste",
 		},
 	}
 
@@ -66,7 +65,7 @@ func TestProduct(t *testing.T) {
 		assert.Empty(err)
 
 		c := Category{
-			Entity: Entity{
+			AggreateRoot: AggreateRoot{
 				ID: "xpto",
 			},
 			Name: "Teste remove",
@@ -77,6 +76,35 @@ func TestProduct(t *testing.T) {
 
 		err = product.RemoveCategory("xpto")
 		assert.Equal(len(product.Categories), 1)
+		assert.Empty(err)
+	})
+
+	t.Run("Should add sku", func(t *testing.T) {
+		assert := assert.New(t)
+		product, err := NewProduct("teste", "description test", category)
+		assert.Empty(err)
+
+		s := NewSku("Teste sku", 20.00, 20)
+
+		product.AddSku(s)
+		assert.Equal(len(product.Skus), 1)
+
+		assert.Empty(err)
+	})
+
+	t.Run("Should remove sku", func(t *testing.T) {
+		assert := assert.New(t)
+		product, err := NewProduct("teste", "description test", category)
+		assert.Empty(err)
+
+		s := NewSku("Teste sku", 20.00, 20)
+
+		product.AddSku(s)
+		assert.Equal(len(product.Skus), 1)
+
+		product.RemoveSku(s.ID)
+		assert.Equal(len(product.Skus), 0)
+
 		assert.Empty(err)
 	})
 }

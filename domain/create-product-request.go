@@ -2,6 +2,7 @@ package domain
 
 //CreateProductRequest for creation of product
 type CreateProductRequest struct {
-	Name        string `json:"name"`
-	Description string `json:"description"`
+	Name        string   `json:"name"`
+	Description string   `json:"description"`
+	Categories  []string `json:"categories"`
 }

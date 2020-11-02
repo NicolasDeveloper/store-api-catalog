@@ -17,7 +17,7 @@ type Product struct {
 	Categories  []Category `bson:"categories" json:"categories"`
 	CreateAt    time.Time  `bson:"create_at" json:"create_at"`
 	UpdateAt    time.Time  `bson:"update_at" json:"update_at"`
-	Entity
+	AggreateRoot
 }
 
 //NewProduct constructor
@@ -31,7 +31,7 @@ func NewProduct(
 	}
 
 	product := Product{
-		Entity: Entity{
+		AggreateRoot: AggreateRoot{
 			ID: guid.NewString(),
 		},
 		Name:        name,
