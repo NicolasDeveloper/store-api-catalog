@@ -1,0 +1,128 @@
+{
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "swagger": "2.0",
+  "info": {
+    "description": "Catalog API to manager products",
+    "title": "Catalog API.",
+    "contact": {
+      "name": "Nicolas Silva",
+      "email": "nicolas.senac15@gmail.com"
+    },
+    "version": "1.0.0"
+  },
+  "host": "localhost:8080",
+  "paths": {
+    "/products/": {
+      "post": {
+        "description": "Create a product in catalog",
+        "tags": [
+          "products"
+        ],
+        "summary": "Create a product.",
+        "operationId": "createProduct",
+        "parameters": [
+          {
+            "description": "request model to create product",
+            "name": "CreateProductRequest",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CreateProductRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/productRes"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "CreateProductRequest": {
+      "description": "CreateProductRequest request model",
+      "type": "object",
+      "required": [
+        "name",
+        "description",
+        "categories"
+      ],
+      "properties": {
+        "categories": {
+          "description": "the categories for this product",
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "x-go-name": "Categories"
+        },
+        "description": {
+          "description": "the description for this product",
+          "type": "string",
+          "x-go-name": "Description"
+        },
+        "name": {
+          "description": "the name for this product",
+          "type": "string",
+          "x-go-name": "Name"
+        }
+      },
+      "x-go-package": "github.com/NicolasDeveloper/store-catalog-api/api/controllers/requests"
+    },
+    "ProductResponse": {
+      "description": "ProductResponse product view model",
+      "type": "object",
+      "properties": {
+        "description": {
+          "type": "string",
+          "x-go-name": "Description"
+        },
+        "id": {
+          "type": "string",
+          "x-go-name": "ID"
+        },
+        "name": {
+          "type": "string",
+          "x-go-name": "Name"
+        }
+      },
+      "x-go-package": "github.com/NicolasDeveloper/store-catalog-api/api/controllers/responses"
+    }
+  },
+  "responses": {
+    "productReq": {
+      "description": "CreateProductRequest response payload",
+      "schema": {
+        "$ref": "#/definitions/CreateProductRequest"
+      }
+    },
+    "productRes": {
+      "description": "ProductResponse response payload",
+      "schema": {
+        "$ref": "#/definitions/ProductResponse"
+      }
+    }
+  },
+  "securityDefinitions": {
+    "api_key": {
+      "type": "apiKey",
+      "name": "KEY",
+      "in": "header"
+    }
+  },
+  "security": [
+    {
+      "api_key": []
+    }
+  ]
+}

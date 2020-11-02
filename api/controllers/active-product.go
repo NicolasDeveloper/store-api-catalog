@@ -3,13 +3,15 @@ package controllers
 import (
 	"net/http"
 
+	"github.com/NicolasDeveloper/store-catalog-api/api/controllers/requests"
+	"github.com/NicolasDeveloper/store-catalog-api/api/controllers/responses"
 	"github.com/NicolasDeveloper/store-catalog-api/domain"
 	"github.com/golobby/container"
 )
 
 //ActiveProduct create product
 func ActiveProduct(w http.ResponseWriter, r *http.Request) {
-	request := domain.UpdateProductRequest{}
+	request := requests.UpdateProductRequest{}
 	GetContent(&request, r)
 
 	var repository domain.ProductRepository
@@ -27,7 +29,7 @@ func ActiveProduct(w http.ResponseWriter, r *http.Request) {
 
 	resp := ResponseData{
 		Success: true,
-		Data: domain.ProductResponse{
+		Data: responses.ProductResponse{
 			ID:          product.ID,
 			Description: product.Description,
 			Name:        product.Name,

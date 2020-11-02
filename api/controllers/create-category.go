@@ -3,13 +3,17 @@ package controllers
 import (
 	"net/http"
 
+	"github.com/NicolasDeveloper/store-catalog-api/api/controllers/requests"
+	"github.com/NicolasDeveloper/store-catalog-api/api/controllers/responses"
+	"github.com/NicolasDeveloper/store-catalog-api/services"
+
 	"github.com/NicolasDeveloper/store-catalog-api/domain"
 	"github.com/golobby/container"
 )
 
-//CreateCategory create product
+// CreateCategory create product
 func CreateCategory(w http.ResponseWriter, r *http.Request) {
-	request := domain.CreateCategorytRequest{}
+	request := requests.CreateCategorytRequest{}
 
 	GetContent(&request, r)
 
@@ -18,6 +22,13 @@ func CreateCategory(w http.ResponseWriter, r *http.Request) {
 
 	var repository domain.CategoryRepository
 	container.Make(&repository)
+
+	category, err = services.LinkCategory(request.ParentCategoryID, category, repository)
+
+	if err != nil {
+		HandleError(err, w)
+		return
+	}
 
 	err = repository.Save(category)
 
@@ -28,7 +39,7 @@ func CreateCategory(w http.ResponseWriter, r *http.Request) {
 
 	resp := ResponseData{
 		Success: true,
-		Data: domain.CategoryResponse{
+		Data: responses.CategoryResponse{
 			ID:               category.ID,
 			Name:             category.Name,
 			ParentCategoryID: category.ParentCategoryID,

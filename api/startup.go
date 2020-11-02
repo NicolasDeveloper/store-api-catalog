@@ -39,6 +39,7 @@ func StartUp(port string) error {
 
 func (s *startup) registerRoutes() {
 	s.router = mux.NewRouter()
+
 	subrouter := s.router.PathPrefix("/catalog-api/v1/").Subrouter()
 
 	subrouter.HandleFunc("/health-check", controllers.HealthCheck).Methods(http.MethodGet)
@@ -46,6 +47,9 @@ func (s *startup) registerRoutes() {
 	subrouter.HandleFunc("/products", controllers.UpdateProduct).Methods(http.MethodPut)
 	subrouter.HandleFunc("/products/active", controllers.ActiveProduct).Methods(http.MethodPut)
 	subrouter.HandleFunc("/products/inactive", controllers.InactiveProduct).Methods(http.MethodPut)
+
+	fs := http.FileServer(http.Dir("./swaggerui"))
+	s.router.PathPrefix("/swaggerui/").Handler(http.StripPrefix("/swaggerui/", fs))
 
 	http.Handle("/", s.router)
 }
