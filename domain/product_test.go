@@ -9,9 +9,11 @@ import (
 )
 
 func TestProduct(t *testing.T) {
+	category := []Category{Category{ID: guid.NewString(), Name: "Teste", ParentCategoryID: ""}}
+
 	t.Run("Should create priduct", func(t *testing.T) {
 		assert := assert.New(t)
-		product, err := NewProduct("teste", "description test")
+		product, err := NewProduct("teste", "description test", category)
 
 		assert.Empty(err)
 		assert.NotEmpty(product.ID)
@@ -19,7 +21,7 @@ func TestProduct(t *testing.T) {
 
 	t.Run("Should create a guid identification", func(t *testing.T) {
 		assert := assert.New(t)
-		product, err := NewProduct("teste", "description test")
+		product, err := NewProduct("teste", "description test", category)
 
 		assert.Empty(err)
 		assert.True(guid.IsGuid(product.ID))
@@ -27,7 +29,7 @@ func TestProduct(t *testing.T) {
 
 	t.Run("Should input date when create a product", func(t *testing.T) {
 		assert := assert.New(t)
-		product, err := NewProduct("teste", "description test")
+		product, err := NewProduct("teste", "description test", category)
 
 		assert.Empty(err)
 		assert.NotEmpty(product.CreateAt)
@@ -35,7 +37,7 @@ func TestProduct(t *testing.T) {
 
 	t.Run("Should create active product", func(t *testing.T) {
 		assert := assert.New(t)
-		product, err := NewProduct("teste", "description test")
+		product, err := NewProduct("teste", "description test", category)
 
 		assert.Empty(err)
 		assert.True(product.Active)
@@ -43,34 +45,28 @@ func TestProduct(t *testing.T) {
 
 	t.Run("Should inactive product", func(t *testing.T) {
 		assert := assert.New(t)
-		product, err := NewProduct("teste", "description test")
+		product, err := NewProduct("teste", "description test", category)
 		product.Disable()
 
 		assert.Empty(err)
 		assert.False(product.Active)
 	})
 
-	t.Run("Should update product", func(t *testing.T) {
+	t.Run("Should remove category", func(t *testing.T) {
 		assert := assert.New(t)
-		product, err := NewProduct("teste", "description test")
-
-		product.Update("updating product name", "updating product description")
-
+		product, err := NewProduct("teste", "description test", category)
 		assert.Empty(err)
-		assert.Equal(product.Name, "updating product name")
-		assert.Equal(product.Description, "updating product description")
-	})
 
-	t.Run("Should update time when product is updated with new information", func(t *testing.T) {
-		assert := assert.New(t)
-		product, err := NewProduct("teste", "description test")
+		c := Category{
+			ID:   "xpto",
+			Name: "Teste remove",
+		}
 
-		now := DateNow()
-		product.Update("updating product name", "updating product description")
+		product.AddCategory(c)
+		assert.Equal(len(product.Categories), 2)
 
+		err = product.RemoveCategory("xpto")
+		assert.Equal(len(product.Categories), 1)
 		assert.Empty(err)
-		expetedDiff := product.UpdateAt.Sub(now).Seconds()
-
-		assert.True(expetedDiff < 1)
 	})
 }
