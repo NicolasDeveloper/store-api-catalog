@@ -9,7 +9,15 @@ import (
 )
 
 func TestProduct(t *testing.T) {
-	category := []Category{Category{ID: guid.NewString(), Name: "Teste", ParentCategoryID: ""}}
+	category := []Category{
+		Category{
+			Entity: Entity{
+				ID: guid.NewString(),
+			},
+			Name:             "Teste",
+			ParentCategoryID: "",
+		},
+	}
 
 	t.Run("Should create priduct", func(t *testing.T) {
 		assert := assert.New(t)
@@ -58,7 +66,9 @@ func TestProduct(t *testing.T) {
 		assert.Empty(err)
 
 		c := Category{
-			ID:   "xpto",
+			Entity: Entity{
+				ID: "xpto",
+			},
 			Name: "Teste remove",
 		}
 

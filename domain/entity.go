@@ -1,6 +1,6 @@
 package domain
 
-//IEntity entity
-type IEntity interface {
-	GetID() string
+//Entity entity
+type Entity struct {
+	ID string `bson:"_id" json:"id"`
 }

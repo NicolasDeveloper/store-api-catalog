@@ -10,7 +10,6 @@ import (
 
 //Product entity
 type Product struct {
-	ID          string     `bson:"_id" json:"id"`
 	Name        string     `bson:"name" json:"name"`
 	Description string     `bson:"description" json:"description"`
 	Skus        []Sku      `bson:"skus" json:"skus"`
@@ -18,6 +17,7 @@ type Product struct {
 	Categories  []Category `bson:"categories" json:"categories"`
 	CreateAt    time.Time  `bson:"create_at" json:"create_at"`
 	UpdateAt    time.Time  `bson:"update_at" json:"update_at"`
+	Entity
 }
 
 //NewProduct constructor
@@ -30,10 +30,10 @@ func NewProduct(
 		return Product{}, errors.New("can't find product category")
 	}
 
-	newguid := guid.New()
-
-	return Product{
-		ID:          newguid.String(),
+	product := Product{
+		Entity: Entity{
+			ID: guid.NewString(),
+		},
 		Name:        name,
 		Description: descripion,
 		Active:      true,
@@ -41,7 +41,9 @@ func NewProduct(
 		CreateAt:    DateNow(),
 		Skus:        []Sku{},
 		Categories:  categories,
-	}, nil
+	}
+
+	return product, nil
 }
 
 //SetName update product
