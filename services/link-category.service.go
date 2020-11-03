@@ -11,7 +11,8 @@ func LinkCategory(
 	categoryID string,
 	category domain.Category,
 	categoryRepository domain.CategoryRepository) (domain.Category, error) {
-	if categoryID != "" {
+
+	if categoryID == "" {
 		return category, nil
 	}
 

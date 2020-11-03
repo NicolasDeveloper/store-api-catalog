@@ -23,4 +23,8 @@ func (i *ioc) registerDependencies() {
 	container.Transient(func(dbctx *DbContext) domain.ProductRepository {
 		return NewProductRepository(dbctx)
 	})
+
+	container.Transient(func(dbctx *DbContext) domain.CategoryRepository {
+		return NewCategoryRepository(dbctx)
+	})
 }

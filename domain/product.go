@@ -10,14 +10,14 @@ import (
 
 //Product entity
 type Product struct {
-	Name        string     `bson:"name" json:"name"`
-	Description string     `bson:"description" json:"description"`
-	Skus        []Sku      `bson:"skus" json:"skus"`
-	Active      bool       `bson:"active" json:"active"`
-	Categories  []Category `bson:"categories" json:"categories"`
-	CreateAt    time.Time  `bson:"create_at" json:"create_at"`
-	UpdateAt    time.Time  `bson:"update_at" json:"update_at"`
-	AggreateRoot
+	Name         string     `bson:"name" json:"name"`
+	Description  string     `bson:"description" json:"description"`
+	Skus         []Sku      `bson:"skus" json:"skus"`
+	Active       bool       `bson:"active" json:"active"`
+	Categories   []Category `bson:"categories" json:"categories"`
+	CreateAt     time.Time  `bson:"create_at" json:"create_at"`
+	UpdateAt     time.Time  `bson:"update_at" json:"update_at"`
+	AggreateRoot `bson:",inline"`
 }
 
 //NewProduct constructor

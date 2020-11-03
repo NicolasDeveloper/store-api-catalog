@@ -6,3 +6,10 @@ type CreateCategorytRequest struct {
 	Path             string `json:"path"`
 	ParentCategoryID string `json:"parent_category_id"`
 }
+
+// CreateCategorytRequest response payload
+// swagger:response categoryReq
+type swaggCategoryReq struct {
+	// in:body
+	Body CreateCategorytRequest
+}

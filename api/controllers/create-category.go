@@ -11,7 +11,21 @@ import (
 	"github.com/golobby/container"
 )
 
-// CreateCategory create product
+// CreateCategory create category
+// swagger:operation POST /categories/ categories createCategory
+// ---
+// summary: Create a category.
+// description: Create a category to use in product catalog
+// parameters:
+// - name: CreateCategorytRequest
+//   description: request model to create category
+//   in: body
+//   required: true
+//   schema:
+//     "$ref": "#/definitions/CreateCategorytRequest"
+// responses:
+//   "200":
+//     "$ref": "#/responses/categoryRes"
 func CreateCategory(w http.ResponseWriter, r *http.Request) {
 	request := requests.CreateCategorytRequest{}
 

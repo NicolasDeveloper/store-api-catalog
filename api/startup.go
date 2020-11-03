@@ -30,34 +30,42 @@ func StartUp(port string) error {
 
 	infra.NewContainer()
 
-	s.registerDb()
-	s.registerRoutes()
-	s.run()
+	s.registerDb().registerRoutes().addSwagger().run()
 
 	return nil
 }
 
-func (s *startup) registerRoutes() {
+func (s *startup) registerRoutes() *startup {
 	s.router = mux.NewRouter()
 
 	subrouter := s.router.PathPrefix("/catalog-api/v1/").Subrouter()
 
 	subrouter.HandleFunc("/health-check", controllers.HealthCheck).Methods(http.MethodGet)
+
+	subrouter.HandleFunc("/categories/", controllers.CreateCategory).Methods(http.MethodPost)
+
 	subrouter.HandleFunc("/products", controllers.CreateProduct).Methods(http.MethodPost)
 	subrouter.HandleFunc("/products", controllers.UpdateProduct).Methods(http.MethodPut)
 	subrouter.HandleFunc("/products/active", controllers.ActiveProduct).Methods(http.MethodPut)
 	subrouter.HandleFunc("/products/inactive", controllers.InactiveProduct).Methods(http.MethodPut)
 
-	fs := http.FileServer(http.Dir("./swaggerui"))
-	s.router.PathPrefix("/swaggerui/").Handler(http.StripPrefix("/swaggerui/", fs))
-
 	http.Handle("/", s.router)
+	return s
 }
 
-func (s *startup) registerDb() {
+func (s *startup) addSwagger() *startup {
+	fs := http.FileServer(http.Dir("./api/swaggerui"))
+	s.router.PathPrefix("/swaggerui/").Handler(http.StripPrefix("/swaggerui/", fs))
+
+	return s
+}
+
+func (s *startup) registerDb() *startup {
 	var dbctx *infra.DbContext
 	container.Make(&dbctx)
 	dbctx.Connect()
+
+	return s
 }
 
 func (s *startup) run() {

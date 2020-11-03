@@ -20,7 +20,34 @@
     "version": "1.0.0"
   },
   "host": "localhost:8080",
+  "basePath": "/catalog-api/v1/",
   "paths": {
+    "/categories/": {
+      "post": {
+        "description": "Create a category to use in product catalog",
+        "tags": [
+          "categories"
+        ],
+        "summary": "Create a category.",
+        "operationId": "createCategory",
+        "parameters": [
+          {
+            "description": "request model to create category",
+            "name": "CreateCategorytRequest",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CreateCategorytRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/categoryRes"
+          }
+        }
+      }
+    },
     "/products/": {
       "post": {
         "description": "Create a product in catalog",
@@ -49,6 +76,44 @@
     }
   },
   "definitions": {
+    "CategoryResponse": {
+      "description": "CategoryResponse category view model",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "x-go-name": "ID"
+        },
+        "name": {
+          "type": "string",
+          "x-go-name": "Name"
+        },
+        "parent_category_id": {
+          "type": "string",
+          "x-go-name": "ParentCategoryID"
+        }
+      },
+      "x-go-package": "github.com/NicolasDeveloper/store-catalog-api/api/controllers/responses"
+    },
+    "CreateCategorytRequest": {
+      "description": "CreateCategorytRequest for creation of product",
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "x-go-name": "Name"
+        },
+        "parent_category_id": {
+          "type": "string",
+          "x-go-name": "ParentCategoryID"
+        },
+        "path": {
+          "type": "string",
+          "x-go-name": "Path"
+        }
+      },
+      "x-go-package": "github.com/NicolasDeveloper/store-catalog-api/api/controllers/requests"
+    },
     "CreateProductRequest": {
       "description": "CreateProductRequest request model",
       "type": "object",
@@ -100,6 +165,18 @@
     }
   },
   "responses": {
+    "categoryReq": {
+      "description": "CreateCategorytRequest response payload",
+      "schema": {
+        "$ref": "#/definitions/CreateCategorytRequest"
+      }
+    },
+    "categoryRes": {
+      "description": "CategoryResponse response payload",
+      "schema": {
+        "$ref": "#/definitions/CategoryResponse"
+      }
+    },
     "productReq": {
       "description": "CreateProductRequest response payload",
       "schema": {
@@ -112,17 +189,5 @@
         "$ref": "#/definitions/ProductResponse"
       }
     }
-  },
-  "securityDefinitions": {
-    "api_key": {
-      "type": "apiKey",
-      "name": "KEY",
-      "in": "header"
-    }
-  },
-  "security": [
-    {
-      "api_key": []
-    }
-  ]
+  }
 }

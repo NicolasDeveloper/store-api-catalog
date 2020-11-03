@@ -6,6 +6,7 @@
 //
 //     Schemes: http, https
 //     Host: localhost:8080
+// 	   BasePath: /catalog-api/v1/
 //     Version: 1.0.0
 //     Contact: Nicolas Silva<nicolas.senac15@gmail.com>
 //
@@ -14,15 +15,6 @@
 //
 //     Produces:
 //     - application/json
-//
-//     Security:
-//     - api_key:
-//
-//     SecurityDefinitions:
-//     api_key:
-//          type: apiKey
-//          name: KEY
-//          in: header
 //
 // swagger:meta
 package main

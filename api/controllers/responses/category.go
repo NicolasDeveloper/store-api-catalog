@@ -6,3 +6,10 @@ type CategoryResponse struct {
 	Name             string `json:"name"`
 	ParentCategoryID string `json:"parent_category_id"`
 }
+
+// CategoryResponse response payload
+// swagger:response categoryRes
+type swaggCategoryResp struct {
+	// in:body
+	Body CategoryResponse
+}

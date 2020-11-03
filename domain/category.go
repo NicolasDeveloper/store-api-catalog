@@ -12,7 +12,7 @@ type Category struct {
 	Name             string `bson:"name" json:"name"`
 	Path             string `bson:"path" json:"path"`
 	ParentCategoryID string `bson:"parent_category_id" json:"parent_category_id"`
-	AggreateRoot
+	AggreateRoot     `bson:",inline"`
 }
 
 //NewCategory constructor
