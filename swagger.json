@@ -1,0 +1,348 @@
+{
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "swagger": "2.0",
+  "info": {
+    "description": "Catalog API to manager products",
+    "title": "Catalog API.",
+    "contact": {
+      "name": "Nicolas Silva",
+      "email": "nicolas.senac15@gmail.com"
+    },
+    "version": "1.0.0"
+  },
+  "basePath": "/catalog-api/v1/",
+  "paths": {
+    "/categories/": {
+      "post": {
+        "description": "Create a category to use in product catalog",
+        "tags": [
+          "categories"
+        ],
+        "summary": "Create a category.",
+        "operationId": "createCategory",
+        "parameters": [
+          {
+            "description": "request model to create category",
+            "name": "CreateCategorytRequest",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CreateCategorytRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/categoryResponse"
+          }
+        }
+      }
+    },
+    "/health-check/": {
+      "get": {
+        "description": "Consult if api its alive",
+        "tags": [
+          "health-check"
+        ],
+        "summary": "Health Check.",
+        "operationId": "healthCheck",
+        "responses": {
+          "200": {
+            "$ref": "#/responses/helthCheckResponse"
+          }
+        }
+      }
+    },
+    "/products/": {
+      "post": {
+        "description": "Create a product in catalog",
+        "tags": [
+          "products"
+        ],
+        "summary": "Create a product.",
+        "operationId": "createProduct",
+        "parameters": [
+          {
+            "description": "request model to create product",
+            "name": "CreateProductRequest",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CreateProductRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/productResponse"
+          }
+        }
+      }
+    },
+    "/products/active/": {
+      "post": {
+        "description": "If a product its disabled this enpoint can active again",
+        "tags": [
+          "products"
+        ],
+        "summary": "Active a product.",
+        "operationId": "activeProduct",
+        "parameters": [
+          {
+            "description": "request model to create category",
+            "name": "ActiveProductRequest",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ActiveProductRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/productResponse"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "ActiveProductRequest": {
+      "description": "ActiveProductRequest request type",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "x-go-name": "ID"
+        }
+      },
+      "x-go-package": "github.com/NicolasDeveloper/store-catalog-api/api/controllers/requests"
+    },
+    "CategoryResponse": {
+      "description": "CategoryResponse category view model",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "x-go-name": "ID"
+        },
+        "name": {
+          "type": "string",
+          "x-go-name": "Name"
+        },
+        "parent_category_id": {
+          "type": "string",
+          "x-go-name": "ParentCategoryID"
+        }
+      },
+      "x-go-package": "github.com/NicolasDeveloper/store-catalog-api/api/controllers/responses"
+    },
+    "CreateCategorytRequest": {
+      "description": "CreateCategorytRequest for creation of product",
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "x-go-name": "Name"
+        },
+        "parent_category_id": {
+          "type": "string",
+          "x-go-name": "ParentCategoryID"
+        },
+        "path": {
+          "type": "string",
+          "x-go-name": "Path"
+        }
+      },
+      "x-go-package": "github.com/NicolasDeveloper/store-catalog-api/api/controllers/requests"
+    },
+    "CreateProductRequest": {
+      "description": "CreateProductRequest request model",
+      "type": "object",
+      "properties": {
+        "categories": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "x-go-name": "Categories"
+        },
+        "description": {
+          "type": "string",
+          "x-go-name": "Description"
+        },
+        "name": {
+          "type": "string",
+          "x-go-name": "Name"
+        }
+      },
+      "x-go-package": "github.com/NicolasDeveloper/store-catalog-api/api/controllers/requests"
+    },
+    "HelthCheckResponse": {
+      "description": "HelthCheckResponse response",
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "x-go-name": "Name"
+        },
+        "version": {
+          "type": "string",
+          "x-go-name": "Version"
+        }
+      },
+      "x-go-package": "github.com/NicolasDeveloper/store-catalog-api/api/controllers/responses"
+    },
+    "InactiveProductRequest": {
+      "description": "InactiveProductRequest request type",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "x-go-name": "ID"
+        }
+      },
+      "x-go-package": "github.com/NicolasDeveloper/store-catalog-api/api/controllers/requests"
+    },
+    "ProductResponse": {
+      "description": "ProductResponse product view model",
+      "type": "object",
+      "properties": {
+        "description": {
+          "type": "string",
+          "x-go-name": "Description"
+        },
+        "id": {
+          "type": "string",
+          "x-go-name": "ID"
+        },
+        "name": {
+          "type": "string",
+          "x-go-name": "Name"
+        }
+      },
+      "x-go-package": "github.com/NicolasDeveloper/store-catalog-api/api/controllers/responses"
+    },
+    "ResponseData": {
+      "description": "ResponseData object response",
+      "type": "object",
+      "properties": {
+        "data": {
+          "description": "Can be a ProductResponse or a CategoryResponse",
+          "type": "object",
+          "x-go-name": "Data"
+        },
+        "success": {
+          "type": "boolean",
+          "x-go-name": "Success"
+        }
+      },
+      "x-go-package": "github.com/NicolasDeveloper/store-catalog-api/api/controllers/responses"
+    },
+    "UpdateCategoryRequest": {
+      "description": "UpdateCategoryRequest Update category",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "x-go-name": "ID"
+        },
+        "name": {
+          "type": "string",
+          "x-go-name": "Name"
+        },
+        "parent_category_id": {
+          "type": "string",
+          "x-go-name": "ParentCategoryID"
+        },
+        "path": {
+          "type": "string",
+          "x-go-name": "Path"
+        }
+      },
+      "x-go-package": "github.com/NicolasDeveloper/store-catalog-api/api/controllers/requests"
+    },
+    "UpdateProductRequest": {
+      "description": "UpdateProductRequest Update product",
+      "type": "object",
+      "properties": {
+        "categories": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "x-go-name": "Categories"
+        },
+        "description": {
+          "type": "string",
+          "x-go-name": "Description"
+        },
+        "id": {
+          "type": "string",
+          "x-go-name": "ID"
+        },
+        "name": {
+          "type": "string",
+          "x-go-name": "Name"
+        }
+      },
+      "x-go-package": "github.com/NicolasDeveloper/store-catalog-api/api/controllers/requests"
+    }
+  },
+  "responses": {
+    "categoryResponse": {
+      "description": "ResponseData response payload",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/definitions/CategoryResponse"
+          },
+          "success": {
+            "type": "boolean",
+            "x-go-name": "Success"
+          }
+        }
+      }
+    },
+    "defaultResponse": {
+      "description": "ResponseData response payload",
+      "schema": {
+        "$ref": "#/definitions/ResponseData"
+      }
+    },
+    "helthCheckResponse": {
+      "description": "HelthCheckResponse payload response",
+      "schema": {
+        "$ref": "#/definitions/HelthCheckResponse"
+      },
+      "headers": {
+        "Body": {}
+      }
+    },
+    "productResponse": {
+      "description": "ResponseData response payload",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/definitions/ProductResponse"
+          },
+          "success": {
+            "type": "boolean",
+            "x-go-name": "Success"
+          }
+        }
+      }
+    }
+  }
+}

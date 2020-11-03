@@ -25,7 +25,7 @@ import (
 //     "$ref": "#/definitions/CreateCategorytRequest"
 // responses:
 //   "200":
-//     "$ref": "#/responses/categoryRes"
+//     "$ref": "#/responses/categoryResponse"
 func CreateCategory(w http.ResponseWriter, r *http.Request) {
 	request := requests.CreateCategorytRequest{}
 

@@ -9,7 +9,21 @@ import (
 	"github.com/golobby/container"
 )
 
-//ActiveProduct create product
+// ActiveProduct create product
+// swagger:operation POST /products/active/ products activeProduct
+// ---
+// summary: Active a product.
+// description: If a product its disabled this enpoint can active again
+// parameters:
+// - name: ActiveProductRequest
+//   description: request model to create category
+//   in: body
+//   required: true
+//   schema:
+//     "$ref": "#/definitions/ActiveProductRequest"
+// responses:
+//   "200":
+//     "$ref": "#/responses/productResponse"
 func ActiveProduct(w http.ResponseWriter, r *http.Request) {
 	request := requests.UpdateProductRequest{}
 	GetContent(&request, r)
@@ -27,7 +41,7 @@ func ActiveProduct(w http.ResponseWriter, r *http.Request) {
 		HandleError(err, w)
 	}
 
-	resp := ResponseData{
+	resp := responses.ResponseData{
 		Success: true,
 		Data: responses.ProductResponse{
 			ID:          product.ID,

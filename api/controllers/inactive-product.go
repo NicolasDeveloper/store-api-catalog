@@ -10,6 +10,20 @@ import (
 )
 
 //InactiveProduct Inactive product
+// swagger:operation POST /products/active/ products activeProduct
+// ---
+// summary: Active a product.
+// description: If a product its active this enpoint can inactive
+// parameters:
+// - name: InactiveProductRequest
+//   description: request model to create category
+//   in: body
+//   required: true
+//   schema:
+//     "$ref": "#/definitions/InactiveProductRequest"
+// responses:
+//   "200":
+//     "$ref": "#/responses/productResponse"
 func InactiveProduct(w http.ResponseWriter, r *http.Request) {
 	request := requests.UpdateProductRequest{}
 	GetContent(&request, r)
@@ -27,7 +41,7 @@ func InactiveProduct(w http.ResponseWriter, r *http.Request) {
 		HandleError(err, w)
 	}
 
-	resp := ResponseData{
+	resp := responses.ResponseData{
 		Success: true,
 		Data: responses.ProductResponse{
 			ID:          product.ID,

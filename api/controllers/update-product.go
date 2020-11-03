@@ -29,7 +29,7 @@ func UpdateProduct(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	resp := ResponseData{
+	resp := responses.ResponseData{
 		Success: true,
 		Data: responses.ProductResponse{
 			ID:          product.ID,

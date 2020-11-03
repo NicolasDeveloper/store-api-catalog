@@ -43,7 +43,7 @@ func UpdateCategory(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	resp := ResponseData{
+	resp := responses.ResponseData{
 		Success: true,
 		Data: responses.CategoryResponse{
 			ID:               category.ID,

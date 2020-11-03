@@ -23,7 +23,7 @@ import (
 //     "$ref": "#/definitions/CreateProductRequest"
 // responses:
 //   "200":
-//     "$ref": "#/responses/productRes"
+//     "$ref": "#/responses/productResponse"
 func CreateProduct(w http.ResponseWriter, r *http.Request) {
 	request := requests.CreateProductRequest{}
 

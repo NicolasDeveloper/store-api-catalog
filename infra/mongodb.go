@@ -54,10 +54,10 @@ func getCollectionName(myvar interface{}) string {
 	t := reflect.TypeOf(myvar)
 
 	if t.Kind() == reflect.Ptr {
-		return strings.ToLower(t.Elem().Name() + "s")
+		return strings.ToLower(t.Elem().Name())
 	}
 
-	return strings.ToLower(t.Name() + "s")
+	return strings.ToLower(t.Name())
 }
 
 //GetCollection get collection

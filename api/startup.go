@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"strings"
 
 	"github.com/NicolasDeveloper/store-catalog-api/api/controllers"
 	"github.com/NicolasDeveloper/store-catalog-api/infra"
@@ -40,16 +41,17 @@ func (s *startup) registerRoutes() *startup {
 
 	subrouter := s.router.PathPrefix("/catalog-api/v1/").Subrouter()
 
-	subrouter.HandleFunc("/health-check", controllers.HealthCheck).Methods(http.MethodGet)
+	subrouter.HandleFunc("/health-check/", controllers.HealthCheck).Methods(http.MethodGet)
 
 	subrouter.HandleFunc("/categories/", controllers.CreateCategory).Methods(http.MethodPost)
 
-	subrouter.HandleFunc("/products", controllers.CreateProduct).Methods(http.MethodPost)
-	subrouter.HandleFunc("/products", controllers.UpdateProduct).Methods(http.MethodPut)
-	subrouter.HandleFunc("/products/active", controllers.ActiveProduct).Methods(http.MethodPut)
-	subrouter.HandleFunc("/products/inactive", controllers.InactiveProduct).Methods(http.MethodPut)
+	subrouter.HandleFunc("/products/", controllers.CreateProduct).Methods(http.MethodPost)
+	subrouter.HandleFunc("/products/", controllers.UpdateProduct).Methods(http.MethodPut)
+	subrouter.HandleFunc("/products/active/", controllers.ActiveProduct).Methods(http.MethodPut)
+	subrouter.HandleFunc("/products/inactive/", controllers.InactiveProduct).Methods(http.MethodPut)
 
 	http.Handle("/", s.router)
+
 	return s
 }
 
@@ -71,4 +73,13 @@ func (s *startup) registerDb() *startup {
 func (s *startup) run() {
 	fmt.Printf("API Catalog Running on %v", s.config.port)
 	log.Fatal(http.ListenAndServe(":"+s.config.port, s.router))
+}
+
+func trailingSlashesMiddleware(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		r.URL.Path = strings.TrimSuffix(r.URL.Path, "/")
+
+		// Call the next handler, which can be another middleware in the chain, or the final handler.
+		next.ServeHTTP(w, r)
+	})
 }

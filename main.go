@@ -5,7 +5,6 @@
 // Terms Of Service:
 //
 //     Schemes: http, https
-//     Host: localhost:8080
 // 	   BasePath: /catalog-api/v1/
 //     Version: 1.0.0
 //     Contact: Nicolas Silva<nicolas.senac15@gmail.com>
