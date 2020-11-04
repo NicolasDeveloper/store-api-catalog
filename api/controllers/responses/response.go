@@ -2,8 +2,9 @@ package responses
 
 //ResponseData object response
 type ResponseData struct {
+	// this field indicates if everything has gone with success
 	Success bool `json:"success"`
-	// Can be a ProductResponse or a CategoryResponse
+	// generic response data
 	Data interface{} `json:"data"`
 }
 

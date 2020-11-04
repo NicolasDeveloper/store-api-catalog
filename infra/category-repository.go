@@ -44,3 +44,15 @@ func (r *categoryRepository) GetByID(categoryID string) (domain.Category, error)
 
 	return category, error
 }
+
+func (r *categoryRepository) GetCategories(categoryIDs []string) ([]domain.Category, error) {
+	collection, error := r.dbctx.GetCollection(domain.Category{})
+	filter := bson.M{"_id": bson.M{"$in": categoryIDs}}
+
+	var categories []domain.Category
+
+	cursor, error := collection.Find(context.TODO(), filter)
+	cursor.All(context.Background(), &categories)
+
+	return categories, error
+}

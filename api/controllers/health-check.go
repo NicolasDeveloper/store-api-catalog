@@ -16,12 +16,9 @@ import (
 //     "$ref": "#/responses/helthCheckResponse"
 func HealthCheck(w http.ResponseWriter, r *http.Request) {
 
-	resp := responses.ResponseData{
-		Success: true,
-		Data: responses.HelthCheckResponse{
-			Name:    "Catalog API",
-			Version: "1.0",
-		},
+	resp := responses.HelthCheckResponse{
+		Name:    "Catalog API",
+		Version: "1.0",
 	}
 
 	SendJSON(w, resp, http.StatusOK)

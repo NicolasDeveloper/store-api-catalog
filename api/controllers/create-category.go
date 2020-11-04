@@ -14,8 +14,8 @@ import (
 // CreateCategory create category
 // swagger:operation POST /categories/ categories createCategory
 // ---
-// summary: Create a category.
-// description: Create a category to use in product catalog
+// summary: Create category.
+// description: Create category to link with a product
 // parameters:
 // - name: CreateCategorytRequest
 //   description: request model to create category
@@ -51,7 +51,7 @@ func CreateCategory(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	resp := ResponseData{
+	resp := responses.ResponseData{
 		Success: true,
 		Data: responses.CategoryResponse{
 			ID:               category.ID,

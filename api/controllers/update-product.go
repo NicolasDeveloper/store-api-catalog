@@ -10,6 +10,20 @@ import (
 )
 
 //UpdateProduct Update product
+// swagger:operation PUT /products/ products updateProduct
+// ---
+// summary: Update product.
+// description: Update product in catalog
+// parameters:
+// - name: UpdateProductRequest
+//   description: request model to update product
+//   in: body
+//   required: true
+//   schema:
+//     "$ref": "#/definitions/UpdateProductRequest"
+// responses:
+//   "200":
+//     "$ref": "#/responses/productResponse"
 func UpdateProduct(w http.ResponseWriter, r *http.Request) {
 	request := requests.UpdateProductRequest{}
 	GetContent(&request, r)

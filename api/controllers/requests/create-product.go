@@ -3,7 +3,13 @@ package requests
 // CreateProductRequest request model
 // swagger:model
 type CreateProductRequest struct {
-	Name        string   `json:"name"`
-	Description string   `json:"description"`
-	Categories  []string `json:"categories"`
+	// product name
+	// required: true
+	Name string `json:"name"`
+	// product description
+	// required: true
+	Description string `json:"description"`
+	// this field will be used to link product with categories
+	// required: true
+	Categories []string `json:"categories"`
 }

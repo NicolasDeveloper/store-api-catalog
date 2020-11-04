@@ -12,8 +12,8 @@ import (
 //CreateProduct create product
 // swagger:operation POST /products/ products createProduct
 // ---
-// summary: Create a product.
-// description: Create a product in catalog
+// summary: Create product.
+// description: Create product in catalog
 // parameters:
 // - name: CreateProductRequest
 //   description: request model to create product
@@ -55,7 +55,7 @@ func CreateProduct(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	resp := ResponseData{
+	resp := responses.ResponseData{
 		Success: true,
 		Data: responses.ProductResponse{
 			ID:          product.ID,

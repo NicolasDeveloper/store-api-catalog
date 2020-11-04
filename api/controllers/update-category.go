@@ -10,7 +10,21 @@ import (
 	"github.com/golobby/container"
 )
 
-//UpdateCategory create product
+//UpdateCategory update category
+// swagger:operation PUT /categories/ categories updateCategory
+// ---
+// summary: Update category.
+// description: Update category to link with a product
+// parameters:
+// - name: UpdateCategoryRequest
+//   description: request model to update category
+//   in: body
+//   required: true
+//   schema:
+//     "$ref": "#/definitions/UpdateCategoryRequest"
+// responses:
+//   "200":
+//     "$ref": "#/responses/categoryResponse"
 func UpdateCategory(w http.ResponseWriter, r *http.Request) {
 	request := requests.UpdateCategoryRequest{}
 

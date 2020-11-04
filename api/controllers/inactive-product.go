@@ -10,13 +10,13 @@ import (
 )
 
 //InactiveProduct Inactive product
-// swagger:operation POST /products/active/ products activeProduct
+// swagger:operation PUT /products/active/ products activeProduct
 // ---
-// summary: Active a product.
-// description: If a product its active this enpoint can inactive
+// summary: Active product.
+// description: If product its active this enpoint can inactive
 // parameters:
 // - name: InactiveProductRequest
-//   description: request model to create category
+//   description: request model to inactive product
 //   in: body
 //   required: true
 //   schema:
