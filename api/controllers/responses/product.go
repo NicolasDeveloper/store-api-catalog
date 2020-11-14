@@ -14,7 +14,7 @@ type ProductResponse struct {
 
 // AddSkus from sku to sku response
 func (p *ProductResponse) AddSkus(skus []domain.Sku) {
-	p.Skus = make([]SkuResponse, len(skus))
+	p.Skus = make([]SkuResponse, 0)
 
 	for _, sku := range skus {
 		skuResponse := SkuResponse{

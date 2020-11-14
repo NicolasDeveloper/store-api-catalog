@@ -163,6 +163,30 @@
       }
     },
     "/products/skus/": {
+      "put": {
+        "description": "Update a product variation",
+        "tags": [
+          "skus"
+        ],
+        "summary": "Update sku",
+        "operationId": "updateSku",
+        "parameters": [
+          {
+            "description": "request model to update sku",
+            "name": "UpdateSkuRequest",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UpdateSkuRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/productResponse"
+          }
+        }
+      },
       "post": {
         "description": "Create a product variation",
         "tags": [
@@ -277,6 +301,35 @@
           "description": "product name",
           "type": "string",
           "x-go-name": "Name"
+        }
+      },
+      "x-go-package": "github.com/NicolasDeveloper/store-catalog-api/api/controllers/requests"
+    },
+    "CreateSkuRequest": {
+      "description": "CreateSkuRequest create product variation",
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "variation name",
+          "type": "string",
+          "x-go-name": "Name"
+        },
+        "price": {
+          "description": "price of product",
+          "type": "number",
+          "format": "double",
+          "x-go-name": "Price"
+        },
+        "product_id": {
+          "description": "product reference",
+          "type": "string",
+          "x-go-name": "ProductID"
+        },
+        "quantity": {
+          "description": "quantity of product",
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Quantity"
         }
       },
       "x-go-package": "github.com/NicolasDeveloper/store-catalog-api/api/controllers/requests"
@@ -444,6 +497,40 @@
           "description": "product name",
           "type": "string",
           "x-go-name": "Name"
+        }
+      },
+      "x-go-package": "github.com/NicolasDeveloper/store-catalog-api/api/controllers/requests"
+    },
+    "UpdateSkuRequest": {
+      "description": "UpdateSkuRequest update product variation",
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "variation name",
+          "type": "string",
+          "x-go-name": "Name"
+        },
+        "price": {
+          "description": "price of product",
+          "type": "number",
+          "format": "double",
+          "x-go-name": "Price"
+        },
+        "product_id": {
+          "description": "product reference",
+          "type": "string",
+          "x-go-name": "ProductID"
+        },
+        "quantity": {
+          "description": "quantity of product",
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Quantity"
+        },
+        "sku_id": {
+          "description": "sku reference",
+          "type": "string",
+          "x-go-name": "SkuID"
         }
       },
       "x-go-package": "github.com/NicolasDeveloper/store-catalog-api/api/controllers/requests"

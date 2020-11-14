@@ -1,0 +1,27 @@
+version: "3"
+services:
+  web:
+    build:
+      context: .
+      dockerfile: dev.Dockerfile
+    container_name: catalog-api
+    depends_on:
+      - mongo
+    ports:
+      - '8080:8080'
+    volumes:
+      - ./:/app
+    environment:
+      - MONGO_DB=mongodb://mongo:27017/catalog?retryWrites=false
+      - PORT=8080
+      - DATABASE=catalog
+  mongo:
+    image: mongo:latest 
+    container_name: mongo
+    ports:
+      - '27017:27017'
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongo mongo:27017/test --quiet
+      interval: 10s
+      timeout: 10s
+      retries: 5

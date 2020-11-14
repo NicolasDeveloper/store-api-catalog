@@ -1,0 +1,2 @@
+gendoc: 
+	./gendoc.sh
