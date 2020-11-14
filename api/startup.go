@@ -51,6 +51,7 @@ func (s *startup) registerRoutes() *startup {
 	subrouter.HandleFunc("/products/inactive/", controllers.InactiveProduct).Methods(http.MethodPut)
 
 	subrouter.HandleFunc("/products/skus/", controllers.CreateSku).Methods(http.MethodPost)
+	subrouter.HandleFunc("/products/skus/remove/", controllers.RemoveSku).Methods(http.MethodPut)
 
 	http.Handle("/", s.router)
 

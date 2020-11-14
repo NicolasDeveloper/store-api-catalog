@@ -211,6 +211,32 @@
           }
         }
       }
+    },
+    "/products/skus/remove/": {
+      "put": {
+        "description": "Remove a product variation",
+        "tags": [
+          "skus"
+        ],
+        "summary": "Remove sku.",
+        "operationId": "RemoveSku",
+        "parameters": [
+          {
+            "description": "request model to create sku",
+            "name": "RemoveSkuRequest",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/RemoveSkuRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/productResponse"
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -389,6 +415,23 @@
         }
       },
       "x-go-package": "github.com/NicolasDeveloper/store-catalog-api/api/controllers/responses"
+    },
+    "RemoveSkuRequest": {
+      "description": "RemoveSkuRequest update product variation",
+      "type": "object",
+      "properties": {
+        "product_id": {
+          "description": "product reference",
+          "type": "string",
+          "x-go-name": "ProductID"
+        },
+        "sku_id": {
+          "description": "sku reference",
+          "type": "string",
+          "x-go-name": "SkuID"
+        }
+      },
+      "x-go-package": "github.com/NicolasDeveloper/store-catalog-api/api/controllers/requests"
     },
     "ResponseData": {
       "description": "ResponseData object response",
