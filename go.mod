@@ -25,10 +25,10 @@ require (
 	github.com/stretchr/testify v1.6.1
 	github.com/swaggo/http-swagger v0.0.0-20200308142732-58ac5e232fba
 	github.com/swaggo/swag v1.6.9 // indirect
-	go.mongodb.org/mongo-driver v1.4.2
-	golang.org/x/net v0.0.0-20201031054903-ff519b6c9102 // indirect
-	golang.org/x/sys v0.0.0-20201101102859-da207088b7d1 // indirect
+	go.mongodb.org/mongo-driver v1.4.3
+	golang.org/x/net v0.0.0-20201110031124-69a78807bb2b // indirect
+	golang.org/x/sys v0.0.0-20201113233024-12cec1faf1ba // indirect
 	golang.org/x/text v0.3.4 // indirect
-	golang.org/x/tools v0.0.0-20201102192140-3288bc1ea189 // indirect
+	golang.org/x/tools v0.0.0-20201113202037-1643af1435f3 // indirect
 	gopkg.in/ini.v1 v1.62.0 // indirect
 )

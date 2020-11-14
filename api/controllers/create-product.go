@@ -42,10 +42,16 @@ func CreateProduct(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	categoryIDs := make([]string, len(categories))
+
+	for _, category := range categories {
+		categoryIDs = append(categoryIDs, category.ID)
+	}
+
 	product, err := domain.NewProduct(
 		request.Name,
 		request.Description,
-		categories,
+		categoryIDs,
 	)
 
 	err = productRepository.Save(product)

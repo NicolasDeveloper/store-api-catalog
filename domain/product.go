@@ -10,23 +10,23 @@ import (
 
 //Product entity
 type Product struct {
-	Name         string     `bson:"name" json:"name"`
-	Description  string     `bson:"description" json:"description"`
-	Skus         []Sku      `bson:"skus" json:"skus"`
-	Active       bool       `bson:"active" json:"active"`
-	Categories   []Category `bson:"categories" json:"categories"`
-	CreateAt     time.Time  `bson:"create_at" json:"create_at"`
-	UpdateAt     time.Time  `bson:"update_at" json:"update_at"`
-	AggreateRoot `bson:",inline"`
+	Name          string    `bson:"name" json:"name"`
+	Description   string    `bson:"description" json:"description"`
+	Active        bool      `bson:"active" json:"active"`
+	Skus          []Sku     `bson:"skus" json:"skus"`
+	CategoriesIds []string  `bson:"categories" json:"categories"`
+	CreateAt      time.Time `bson:"create_at" json:"create_at"`
+	UpdateAt      time.Time `bson:"update_at" json:"update_at"`
+	AggreateRoot  `bson:",inline"`
 }
 
 //NewProduct constructor
 func NewProduct(
 	name string,
 	descripion string,
-	categories []Category,
+	categoriesIDs []string,
 ) (Product, error) {
-	if len(categories) == 0 {
+	if len(categoriesIDs) == 0 {
 		return Product{}, errors.New("can't find product category")
 	}
 
@@ -34,13 +34,13 @@ func NewProduct(
 		AggreateRoot: AggreateRoot{
 			ID: guid.NewString(),
 		},
-		Name:        name,
-		Description: descripion,
-		Active:      true,
-		UpdateAt:    DateNow(),
-		CreateAt:    DateNow(),
-		Skus:        []Sku{},
-		Categories:  categories,
+		Name:          name,
+		Description:   descripion,
+		Active:        true,
+		UpdateAt:      DateNow(),
+		CreateAt:      DateNow(),
+		Skus:          []Sku{},
+		CategoriesIds: categoriesIDs,
 	}
 
 	return product, nil
@@ -82,6 +82,37 @@ func (p *Product) AddSku(sku Sku) {
 	p.UpdateAt = DateNow()
 }
 
+//FindSku search sku
+func (p *Product) FindSku(skuID string) (Sku, error) {
+	for _, item := range p.Skus {
+		if skuID == item.ID {
+			return item, nil
+		}
+	}
+
+	return Sku{}, errors.New("sku not found")
+}
+
+//UpdateSku update sku
+func (p *Product) UpdateSku(skuToUpdate Sku) error {
+	found := false
+
+	for i, sku := range p.Skus {
+		if sku.ID == skuToUpdate.ID {
+			p.Skus[i] = skuToUpdate
+			found = true
+		}
+	}
+
+	if found == false {
+		return errors.New("Sku not found")
+	}
+
+	p.UpdateAt = DateNow()
+
+	return nil
+}
+
 //RemoveSku remove product variation
 func (p *Product) RemoveSku(skuID string) error {
 	index := sort.Search(len(p.Skus), func(i int) bool {
@@ -98,22 +129,22 @@ func (p *Product) RemoveSku(skuID string) error {
 }
 
 //AddCategory add product category
-func (p *Product) AddCategory(category Category) {
-	p.Categories = append(p.Categories, category)
+func (p *Product) AddCategory(categoryID string) {
+	p.CategoriesIds = append(p.CategoriesIds, categoryID)
 	p.UpdateAt = DateNow()
 }
 
 //RemoveCategory remove product category
 func (p *Product) RemoveCategory(categoryID string) error {
-	index := sort.Search(len(p.Categories), func(i int) bool {
-		return p.Categories[i].ID == categoryID
+	index := sort.Search(len(p.CategoriesIds), func(i int) bool {
+		return p.CategoriesIds[i] == categoryID
 	})
 
-	if len(p.Categories) == index {
+	if len(p.CategoriesIds) == index {
 		return errors.New("category not found")
 	}
 
-	p.Categories = append(p.Categories[:index], p.Categories[index+1:]...)
+	p.CategoriesIds = append(p.CategoriesIds[:index], p.CategoriesIds[index+1:]...)
 	p.UpdateAt = DateNow()
 	return nil
 }
