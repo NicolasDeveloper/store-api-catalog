@@ -6,4 +6,6 @@ type CategoryRepository interface {
 	Update(category Category) error
 	GetByID(categoryID string) (Category, error)
 	GetCategories(categoriesIDs []string) ([]Category, error)
+	ListCategories(skip int, take int) ([]Category, error)
+	Total() (int, error)
 }
