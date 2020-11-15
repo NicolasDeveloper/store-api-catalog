@@ -47,7 +47,7 @@ func LisCategories(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	categories, err := repository.ListCategories(paginator.GetSkip(), request.PageSize)
+	categories, err := repository.ListCategories(paginator.GetSkip(), paginator.PageSize)
 
 	if err != nil {
 		HandleError(err, w)
@@ -66,12 +66,14 @@ func LisCategories(w http.ResponseWriter, r *http.Request) {
 
 	resp := responses.ResponseData{
 		Success: true,
-		Data: responses.ListPaginatorResponse{
-			CurrentPage:  paginator.GetCurrentPage(),
-			PrevPage:     paginator.GetPrevPage(),
-			NextPageSize: paginator.GetNextPageIndex(),
-			PrevPageSize: paginator.GetPrevPageIndex(),
-			Items:        categoryResponse,
+		Data: responses.CategoryPaginatorResponse{
+			Items: categoryResponse,
+			ListPaginatorResponse: responses.ListPaginatorResponse{
+				CurrentPage:  paginator.GetCurrentPage(),
+				PrevPage:     paginator.GetPrevPage(),
+				NextPageSize: paginator.GetNextPageIndex(),
+				PrevPageSize: paginator.GetPrevPageIndex(),
+			},
 		},
 	}
 
