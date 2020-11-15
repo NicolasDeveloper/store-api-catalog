@@ -9,18 +9,11 @@ import (
 )
 
 func TestProduct(t *testing.T) {
-	category := []Category{
-		Category{
-			AggreateRoot: AggreateRoot{
-				ID: guid.NewString(),
-			},
-			Name: "Teste",
-		},
-	}
+	categories := []string{}
 
 	t.Run("Should create priduct", func(t *testing.T) {
 		assert := assert.New(t)
-		product, err := NewProduct("teste", "description test", category)
+		product, err := NewProduct("teste", "description test", categories)
 
 		assert.Empty(err)
 		assert.NotEmpty(product.ID)
@@ -28,7 +21,7 @@ func TestProduct(t *testing.T) {
 
 	t.Run("Should create a guid identification", func(t *testing.T) {
 		assert := assert.New(t)
-		product, err := NewProduct("teste", "description test", category)
+		product, err := NewProduct("teste", "description test", categories)
 
 		assert.Empty(err)
 		assert.True(guid.IsGuid(product.ID))
@@ -36,7 +29,7 @@ func TestProduct(t *testing.T) {
 
 	t.Run("Should input date when create a product", func(t *testing.T) {
 		assert := assert.New(t)
-		product, err := NewProduct("teste", "description test", category)
+		product, err := NewProduct("teste", "description test", categories)
 
 		assert.Empty(err)
 		assert.NotEmpty(product.CreateAt)
@@ -44,7 +37,7 @@ func TestProduct(t *testing.T) {
 
 	t.Run("Should create active product", func(t *testing.T) {
 		assert := assert.New(t)
-		product, err := NewProduct("teste", "description test", category)
+		product, err := NewProduct("teste", "description test", categories)
 
 		assert.Empty(err)
 		assert.True(product.Active)
@@ -52,7 +45,7 @@ func TestProduct(t *testing.T) {
 
 	t.Run("Should inactive product", func(t *testing.T) {
 		assert := assert.New(t)
-		product, err := NewProduct("teste", "description test", category)
+		product, err := NewProduct("teste", "description test", categories)
 		product.Disable()
 
 		assert.Empty(err)
@@ -61,27 +54,22 @@ func TestProduct(t *testing.T) {
 
 	t.Run("Should remove category", func(t *testing.T) {
 		assert := assert.New(t)
-		product, err := NewProduct("teste", "description test", category)
+		product, err := NewProduct("teste", "description test", categories)
 		assert.Empty(err)
 
-		c := Category{
-			AggreateRoot: AggreateRoot{
-				ID: "xpto",
-			},
-			Name: "Teste remove",
-		}
+		c := guid.NewString()
 
 		product.AddCategory(c)
-		assert.Equal(len(product.Categories), 2)
+		assert.Equal(len(product.CategoriesIds), 2)
 
 		err = product.RemoveCategory("xpto")
-		assert.Equal(len(product.Categories), 1)
+		assert.Equal(len(product.CategoriesIds), 1)
 		assert.Empty(err)
 	})
 
 	t.Run("Should add sku", func(t *testing.T) {
 		assert := assert.New(t)
-		product, err := NewProduct("teste", "description test", category)
+		product, err := NewProduct("teste", "description test", categories)
 		assert.Empty(err)
 
 		s := NewSku("Teste sku", 20.00, 20)
@@ -94,7 +82,7 @@ func TestProduct(t *testing.T) {
 
 	t.Run("Should remove sku", func(t *testing.T) {
 		assert := assert.New(t)
-		product, err := NewProduct("teste", "description test", category)
+		product, err := NewProduct("teste", "description test", categories)
 		assert.Empty(err)
 
 		s := NewSku("Teste sku", 20.00, 20)

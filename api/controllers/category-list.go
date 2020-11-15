@@ -33,15 +33,46 @@ func LisCategories(w http.ResponseWriter, r *http.Request) {
 	var repository domain.CategoryRepository
 	container.Make(&repository)
 
-	// filter, _ := services.CalculatePageSize(
-	// 	request.Page,
-	// 	request.Size,
-	// 	repository,
-	// )
+	total, err := repository.Total()
+
+	if err != nil {
+		HandleError(err, w)
+		return
+	}
+
+	paginator, err := domain.NewPaginator(request.CurrentPageIndex, request.PageSize, total)
+
+	if err != nil {
+		HandleError(err, w)
+		return
+	}
+
+	categories, err := repository.ListCategories(paginator.GetSkip(), request.PageSize)
+
+	if err != nil {
+		HandleError(err, w)
+		return
+	}
+
+	categoryResponse := make([]responses.CategoryResponse, 0)
+
+	for _, category := range categories {
+		categoryResponse = append(categoryResponse, responses.CategoryResponse{
+			ID:               category.ID,
+			Name:             category.Name,
+			ParentCategoryID: category.ParentCategoryID,
+		})
+	}
 
 	resp := responses.ResponseData{
 		Success: true,
-		Data:    nil,
+		Data: responses.ListPaginatorResponse{
+			CurrentPage:  paginator.GetCurrentPage(),
+			PrevPage:     paginator.GetPrevPage(),
+			NextPageSize: paginator.GetNextPageIndex(),
+			PrevPageSize: paginator.GetPrevPageIndex(),
+			Items:        categoryResponse,
+		},
 	}
 
 	SendJSON(w, resp, http.StatusCreated)
