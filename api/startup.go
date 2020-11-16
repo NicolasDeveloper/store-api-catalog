@@ -62,7 +62,7 @@ func (s *startup) registerRoutes() *startup {
 }
 
 func (s *startup) addSwagger() *startup {
-	fs := http.FileServer(http.Dir("./api/swaggerui"))
+	fs := http.FileServer(http.Dir("./../swagger-ui"))
 	s.router.PathPrefix("/swaggerui/").Handler(http.StripPrefix("/swaggerui/", fs))
 
 	return s

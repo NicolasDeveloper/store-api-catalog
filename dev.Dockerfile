@@ -19,6 +19,14 @@ RUN download_url=$(curl -s https://api.github.com/repos/go-swagger/go-swagger/re
     && curl -o /usr/bin/swagger -L'#' "$download_url" \
     && chmod +x /usr/bin/swagger
 
+WORKDIR / 
+
+RUN mkdir swagger-ui && cd swagger-ui && \
+    curl -L https://github.com/swagger-api/swagger-ui/archive/master.tar.gz | tar -xz --strip=2 swagger-ui-master/dist/ && \
+    sed -i "s/https\:\/\/petstore.swagger.io\/v2/\./g" index.html
+
 EXPOSE 8080
+
+WORKDIR /app
 
 CMD air
