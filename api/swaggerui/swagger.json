@@ -25,25 +25,27 @@
       "get": {
         "description": "list categorires",
         "tags": [
-          "categories",
-          ""
+          "categories"
         ],
         "summary": "List category.",
-        "operationId": "LisCategories",
+        "operationId": "listCategories",
         "parameters": [
           {
-            "description": "request model to update category",
-            "name": "ListRequesCategoriest",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/%20ListRequesCategoriest"
-            }
+            "description": "batch items size",
+            "name": "page_size",
+            "in": "query",
+            "required": true
+          },
+          {
+            "description": "current item index",
+            "name": "current_page_index",
+            "in": "query",
+            "required": true
           }
         ],
         "responses": {
           "200": {
-            "$ref": "#/responses/categoryResponse"
+            "$ref": "#/responses/categoryPaginatorResponse"
           }
         }
       },
@@ -280,6 +282,50 @@
       },
       "x-go-package": "github.com/NicolasDeveloper/store-catalog-api/api/controllers/requests"
     },
+    "CategoryPaginatorResponse": {
+      "description": "CategoryPaginatorResponse list paginator response",
+      "type": "object",
+      "properties": {
+        "current_page": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "CurrentPage"
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CategoryResponse"
+          },
+          "x-go-name": "Items"
+        },
+        "next_page": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "NextPage"
+        },
+        "next_page_size": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "NextPageSize"
+        },
+        "prev_page": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "PrevPage"
+        },
+        "prev_page_size": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "PrevPageSize"
+        },
+        "total_pages": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "TotalPages"
+        }
+      },
+      "x-go-package": "github.com/NicolasDeveloper/store-catalog-api/api/controllers/responses"
+    },
     "CategoryResponse": {
       "description": "CategoryResponse category view model",
       "type": "object",
@@ -411,23 +457,6 @@
           "description": "product identification",
           "type": "string",
           "x-go-name": "ID"
-        }
-      },
-      "x-go-package": "github.com/NicolasDeveloper/store-catalog-api/api/controllers/requests"
-    },
-    "ListCategorytRequest": {
-      "description": "ListCategorytRequest list products",
-      "type": "object",
-      "properties": {
-        "page": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Page"
-        },
-        "size": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Size"
         }
       },
       "x-go-package": "github.com/NicolasDeveloper/store-catalog-api/api/controllers/requests"
@@ -619,9 +648,44 @@
         }
       },
       "x-go-package": "github.com/NicolasDeveloper/store-catalog-api/api/controllers/requests"
+    },
+    "listCategories": {
+      "description": "ListCategorytRequest list products",
+      "type": "object",
+      "properties": {
+        "current_page_index": {
+          "description": "CurrentPageIndex current index size",
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "CurrentPageIndex"
+        },
+        "page_size": {
+          "description": "PageSize page size",
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "PageSize"
+        }
+      },
+      "x-go-name": "ListCategorytRequest",
+      "x-go-package": "github.com/NicolasDeveloper/store-catalog-api/api/controllers/requests"
     }
   },
   "responses": {
+    "categoryPaginatorResponse": {
+      "description": "ResponseData response payload",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/definitions/CategoryPaginatorResponse"
+          },
+          "success": {
+            "type": "boolean",
+            "x-go-name": "Success"
+          }
+        }
+      }
+    },
     "categoryResponse": {
       "description": "ResponseData response payload",
       "schema": {

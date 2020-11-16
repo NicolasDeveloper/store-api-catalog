@@ -1,5 +1,9 @@
 package domain
 
+import (
+	"math"
+)
+
 // Paginator page calculator
 type Paginator struct {
 	CurrentPageIndex int
@@ -45,12 +49,18 @@ func (p *Paginator) GetNextPageIndex() int {
 
 // GetPrevPageIndex get previous skip list
 func (p *Paginator) GetPrevPageIndex() int {
-	return p.CurrentPageIndex - p.PageSize
+	prev := p.CurrentPageIndex - p.PageSize
+
+	if prev < 0 {
+		return 0
+	}
+
+	return prev
 }
 
 // GetTotalPageQuantity get total pages
 func (p *Paginator) GetTotalPageQuantity() int {
-	return p.Total / p.PageSize
+	return int(math.Ceil(float64(p.Total) / float64(p.PageSize)))
 }
 
 // GetCurrentPage get current page number
@@ -61,16 +71,27 @@ func (p *Paginator) GetCurrentPage() int {
 		currentPageIndex = 0
 	}
 
-	return currentPageIndex / p.PageSize
+	return (currentPageIndex / p.PageSize) + 1
 }
 
 // GetNextPage get next page number
 func (p *Paginator) GetNextPage() int {
-	current := p.GetCurrentPage()
-	return current + 1
+	current := p.GetCurrentPage() + 1
+
+	if current > p.GetTotalPageQuantity() {
+		return p.GetTotalPageQuantity()
+	}
+
+	return current
 }
 
 // GetPrevPage get previous page number
 func (p *Paginator) GetPrevPage() int {
-	return p.GetCurrentPage() - 1
+	prev := p.GetCurrentPage() - 1
+
+	if prev < 1 {
+		return 1
+	}
+
+	return prev
 }

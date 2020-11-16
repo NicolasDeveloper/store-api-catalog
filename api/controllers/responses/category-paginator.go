@@ -7,7 +7,7 @@ type CategoryPaginatorResponse struct {
 }
 
 // ResponseData response payload
-//swagger:response CategoryPaginatorResponse
+//swagger:response categoryPaginatorResponse
 type swaggerCategoryPaginatorResponse struct {
 	//in: body
 	Body struct {

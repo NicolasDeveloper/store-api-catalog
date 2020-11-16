@@ -15,6 +15,7 @@ require (
 	github.com/golobby/container v1.3.0
 	github.com/gorilla/handlers v1.5.1 // indirect
 	github.com/gorilla/mux v1.8.0
+	github.com/hashicorp/hcl v1.0.0
 	github.com/kr/pretty v0.2.1 // indirect
 	github.com/magiconair/properties v1.8.4 // indirect
 	github.com/mailru/easyjson v0.7.6 // indirect

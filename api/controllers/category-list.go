@@ -1,7 +1,9 @@
 package controllers
 
 import (
+	"errors"
 	"net/http"
+	"strconv"
 
 	"github.com/NicolasDeveloper/store-catalog-api/api/controllers/requests"
 	"github.com/NicolasDeveloper/store-catalog-api/domain"
@@ -11,24 +13,43 @@ import (
 )
 
 // LisCategories list categorires
-// swagger:operation GET /categories/ categories  LisCategories
+// swagger:operation GET /categories/ categories listCategories
 // ---
 // summary: List category.
 // description: list categorires
 // parameters:
-// - name:  ListRequesCategoriest
-//   description: request model to update category
-//   in: body
+// - name: page_size
+//   description: batch items size
 //   required: true
-//   schema:
-//     "$ref": "#/definitions/ ListRequesCategoriest"
+//   in: query
+// - name: current_page_index
+//   description: current item index
+//   required: true
+//   in: query
 // responses:
 //   "200":
-//     "$ref": "#/responses/categoryResponse"
+//     "$ref": "#/responses/categoryPaginatorResponse"
 func LisCategories(w http.ResponseWriter, r *http.Request) {
-	request := requests.ListCategorytRequest{}
+	query := r.URL.Query()
 
-	GetContent(&request, r)
+	currentPageIndex, err := strconv.ParseInt(query.Get("current_page_index"), 10, 64)
+
+	if err != nil {
+		HandleError(errors.New("Missing page index start"), w)
+		return
+	}
+
+	pageSize, err := strconv.ParseInt(query.Get("page_size"), 10, 64)
+
+	if err != nil {
+		HandleError(errors.New("Missing page page size"), w)
+		return
+	}
+
+	request := requests.ListCategorytRequest{
+		CurrentPageIndex: int(currentPageIndex),
+		PageSize:         int(pageSize),
+	}
 
 	var repository domain.CategoryRepository
 	container.Make(&repository)
@@ -36,7 +57,7 @@ func LisCategories(w http.ResponseWriter, r *http.Request) {
 	total, err := repository.Total()
 
 	if err != nil {
-		HandleError(err, w)
+		HandleError(errors.New("Total not found"), w)
 		return
 	}
 
@@ -50,7 +71,7 @@ func LisCategories(w http.ResponseWriter, r *http.Request) {
 	categories, err := repository.ListCategories(paginator.GetSkip(), paginator.PageSize)
 
 	if err != nil {
-		HandleError(err, w)
+		HandleError(errors.New("Categories not found"), w)
 		return
 	}
 
@@ -70,9 +91,11 @@ func LisCategories(w http.ResponseWriter, r *http.Request) {
 			Items: categoryResponse,
 			ListPaginatorResponse: responses.ListPaginatorResponse{
 				CurrentPage:  paginator.GetCurrentPage(),
+				NextPage:     paginator.GetNextPage(),
 				PrevPage:     paginator.GetPrevPage(),
 				NextPageSize: paginator.GetNextPageIndex(),
 				PrevPageSize: paginator.GetPrevPageIndex(),
+				TotalPages:   paginator.GetTotalPageQuantity(),
 			},
 		},
 	}

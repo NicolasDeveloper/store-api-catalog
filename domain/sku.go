@@ -7,7 +7,7 @@ type Sku struct {
 	Name     string  `bson:"name" json:"name"`
 	Price    float64 `bson:"price" json:"price"`
 	Quantity int     `bson:"quantity" json:"quantity"`
-	Aggreate
+	Aggreate `bson:",inline" json:",inline"`
 }
 
 //NewSku constructor

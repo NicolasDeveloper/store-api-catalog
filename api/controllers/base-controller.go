@@ -42,7 +42,7 @@ func HandleError(err error, w http.ResponseWriter) bool {
 	}
 
 	msg := map[string]string{
-		"message": "An error occured",
+		"message": err.Error(),
 	}
 
 	SendJSON(w, &msg, http.StatusInternalServerError)

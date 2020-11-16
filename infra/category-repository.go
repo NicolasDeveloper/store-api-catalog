@@ -5,6 +5,7 @@ import (
 
 	"github.com/NicolasDeveloper/store-catalog-api/domain"
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 type categoryRepository struct {
@@ -52,7 +53,40 @@ func (r *categoryRepository) GetCategories(categoryIDs []string) ([]domain.Categ
 	var categories []domain.Category
 
 	cursor, error := collection.Find(context.TODO(), filter)
+
+	if error != nil {
+		return nil, error
+	}
+
 	cursor.All(context.Background(), &categories)
 
 	return categories, error
+}
+
+func (r *categoryRepository) ListCategories(skip int, take int) ([]domain.Category, error) {
+	collection, error := r.dbctx.GetCollection(domain.Category{})
+
+	var categories []domain.Category
+
+	options := options.FindOptions{}
+
+	options.SetSkip(int64(skip))
+	options.SetLimit(int64(take))
+
+	cursor, error := collection.Find(context.TODO(), bson.D{}, &options)
+
+	if error != nil {
+		return nil, error
+	}
+
+	cursor.All(context.Background(), &categories)
+
+	return categories, error
+}
+
+func (r *categoryRepository) Total() (int, error) {
+	collection, error := r.dbctx.GetCollection(domain.Category{})
+	itemsCount, error := collection.CountDocuments(context.TODO(), bson.D{})
+
+	return int(itemsCount), error
 }
